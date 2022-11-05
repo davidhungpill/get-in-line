@@ -1,20 +1,16 @@
 package com.fastcampus.getinline.controller.error;
 
 import com.fastcampus.getinline.constants.ErrorCode;
-import com.fastcampus.getinline.dto.ApiErrorResponse;
+import com.fastcampus.getinline.dto.APiErrorResponse;
 import com.fastcampus.getinline.exception.GeneralException;
 import org.springframework.http.HttpHeaders;
-import org.springframework.http.HttpRequest;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 import org.springframework.web.context.request.WebRequest;
-import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.method.annotation.ResponseEntityExceptionHandler;
-
-import java.util.Map;
 
 @RestControllerAdvice(annotations = RestController.class)
 public class APIExceptionHandler extends ResponseEntityExceptionHandler {
@@ -26,7 +22,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
         return super.handleExceptionInternal(
                 e,
-                ApiErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
+                APiErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
                 HttpHeaders.EMPTY, status, request);
     }
 
@@ -37,7 +33,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
 
         return super.handleExceptionInternal(
                 e,
-                ApiErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
+                APiErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(e)),
                 HttpHeaders.EMPTY, status, request);
     }
 
@@ -48,7 +44,7 @@ public class APIExceptionHandler extends ResponseEntityExceptionHandler {
                 ErrorCode.SPRING_INTERNAL_ERROR;
         return super.handleExceptionInternal(
                 ex,
-                ApiErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(ex)),
+                APiErrorResponse.of(false, errorCode.getCode(), errorCode.getMessage(ex)),
                 headers, status, request);
     }
 }

@@ -15,6 +15,7 @@ public class Place {
     private String phoneNumber;
     private Integer capacity;
     private String name;
+    private String memo;
 
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
