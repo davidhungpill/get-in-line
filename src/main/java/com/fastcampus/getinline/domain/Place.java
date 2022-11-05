@@ -1,0 +1,25 @@
+package com.fastcampus.getinline.domain;
+
+import com.fastcampus.getinline.constants.PlaceType;
+import lombok.Data;
+
+import java.time.LocalDateTime;
+
+@Data
+public class Place {
+
+    private Long id;
+
+    private PlaceType placeType;
+    private String address;
+    private String phoneNumber;
+    private Integer capacity;
+    private String name;
+    private String memo;
+
+    private LocalDateTime createdAt;
+    private LocalDateTime modifiedAt;
+
+
+
+}
