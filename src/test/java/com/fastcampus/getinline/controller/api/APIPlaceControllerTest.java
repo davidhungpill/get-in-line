@@ -1,15 +1,25 @@
 package com.fastcampus.getinline.controller.api;
-import com.fasterxml.jackson.databind.ObjectMapper;
+
 import com.fastcampus.getinline.constants.ErrorCode;
 import com.fastcampus.getinline.constants.PlaceType;
+import com.fastcampus.getinline.dto.PlaceDTO;
 import com.fastcampus.getinline.dto.PlaceRequest;
+import com.fastcampus.getinline.service.PlaceService;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
+import org.springframework.boot.test.mock.mockito.MockBean;
 import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 
+import java.time.LocalDateTime;
+import java.util.List;
+
+import static org.mockito.ArgumentMatchers.any;
+import static org.mockito.BDDMockito.given;
+import static org.mockito.BDDMockito.then;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.*;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.*;
 
@@ -18,6 +28,9 @@ class APIPlaceControllerTest {
 
     private final MockMvc mvc;
     private final ObjectMapper mapper;
+
+    @MockBean
+    PlaceService placeService;
 
     public APIPlaceControllerTest(
             @Autowired MockMvc mvc,
@@ -31,6 +44,7 @@ class APIPlaceControllerTest {
     @Test
     void givenNothing_whenRequestingPlaces_thenReturnsPlacesInStandardResponse() throws Exception {
         // Given
+        given(placeService.getPlaces(any(), any(), any(), any(), any(), any(), any())).willReturn(List.of(createPlace()));
 
         // When & Then
         mvc.perform(get("/api/places"))
@@ -46,6 +60,20 @@ class APIPlaceControllerTest {
                 .andExpect(jsonPath("$.success").value(true))
                 .andExpect(jsonPath("$.errorCode").value(ErrorCode.OK.getCode()))
                 .andExpect(jsonPath("$.message").value(ErrorCode.OK.getMessage()));
+        then(placeService).should().getPlaces(any(), any(), any(), any(), any(), any(), any());
+    }
+
+    private PlaceDTO createPlace() {
+        return PlaceDTO.of(
+                PlaceType.COMMON,
+                "랄라베드민턴장",
+                "서울시 강남구 강남대로 1234",
+                "010-1234-5678",
+                30,
+                "신장개업",
+                LocalDateTime.now(),
+                LocalDateTime.now()
+        );
     }
 
     @DisplayName("[API][POST] 장소 생성")

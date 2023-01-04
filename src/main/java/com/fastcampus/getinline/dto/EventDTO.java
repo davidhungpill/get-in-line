@@ -1,9 +1,10 @@
 package com.fastcampus.getinline.dto;
+
 import com.fastcampus.getinline.constants.EventStatus;
 
 import java.time.LocalDateTime;
 
-public record EventResponse(
+public record EventDTO(
         Long placeId,
         String eventName,
         EventStatus eventStatus,
@@ -11,9 +12,11 @@ public record EventResponse(
         LocalDateTime eventEndDatetime,
         Integer currentNumberOfPeople,
         Integer capacity,
-        String memo
+        String memo,
+        LocalDateTime createdAt,
+        LocalDateTime modifiedAt
 ) {
-    public static EventResponse of(
+    public static EventDTO of(
             Long placeId,
             String eventName,
             EventStatus eventStatus,
@@ -21,9 +24,11 @@ public record EventResponse(
             LocalDateTime eventEndDatetime,
             Integer currentNumberOfPeople,
             Integer capacity,
-            String memo
+            String memo,
+            LocalDateTime createdAt,
+            LocalDateTime modifiedAt
     ) {
-        return new EventResponse(
+        return new EventDTO(
                 placeId,
                 eventName,
                 eventStatus,
@@ -31,21 +36,9 @@ public record EventResponse(
                 eventEndDatetime,
                 currentNumberOfPeople,
                 capacity,
-                memo
-        );
-    }
-
-    public static EventResponse from(EventDTO eventDTO){
-        if(eventDTO==null){return null;}
-        return EventResponse.of(
-                eventDTO.placeId(),
-                eventDTO.eventName(),
-                EventStatus.OPENED,
-                eventDTO.eventStartDatetime(),
-                eventDTO.eventEndDatetime(),
-                eventDTO.currentNumberOfPeople(),
-                eventDTO.capacity(),
-                eventDTO.memo()
+                memo,
+                createdAt,
+                modifiedAt
         );
     }
 }
